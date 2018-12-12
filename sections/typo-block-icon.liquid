@@ -1,0 +1,124 @@
+<div class="clearfix"></div>
+<div class="typo-block-icon" style="margin:{{section.settings.home_block_icon}};">
+ <div class="container">
+   <hr>
+    <div class="row" >
+      {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <div class="feature-box">
+            <div class="typo-box-icon">
+              <img src="{{block.settings.block_icon_1}}" style="width:150px"/>
+            </div>
+            <div class="typo-box-info">
+              <h4>{{block.settings.block_icon_title_1}}</h4>
+              <p>{{block.settings.block_icon_subtitle_1}}</p>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+<style>
+  .typo-box-info, .typo-box-info h4{color:{{section.settings.color_text }} }
+  .typo-box-icon i{ color:{{section.settings.color_icon}}; }
+  .typo-box-icon:hover i{ color:{{section.settings.color_icon_hover}};}
+</style>
+</div>
+
+
+{% schema %}
+  {
+  
+	"name": "Typo - Block Icon",
+    "class": "index-section",
+    "max_blocks": 3,
+    "settings": [
+      
+	 {
+        "type": "checkbox",
+        "id": "enable_block_home_icon_full",
+        "label": "Enable Fullwidth"
+      },
+	  {
+        "type": "text",
+        "id": "home_block_icon",
+        "label": "Margin",
+        "default": "0px 0px 0px 0px"
+      },
+      {
+        "type": "color",
+        "id": "color_icon",
+        "label": "Icon Label Color",
+        "default": "#fff",
+        "info": "Default Value: #fff"
+      },
+      {
+        "type": "color",
+        "id": "color_icon_hover",
+        "label": "Icon Hover Color",
+        "default": "#000",
+        "info": "Default Value: #000"
+      },
+  
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text Color",
+        "default": "#2d2d2d",
+        "info": "Default Value: #2d2d2d"
+      }
+  
+	],
+    "blocks": [
+        {
+          "type": "block",
+          "name": "Block",
+          "settings": [
+          {
+            "type": "text",
+            "id": "block_icon_1",
+            "label": "Icon ",
+            "default": "fa fa-plane"
+          },
+          {
+            "type": "text",
+            "id": "block_icon_title_1",
+            "label": "Heading ",
+            "default": "Heading"
+          },
+          {
+            "type": "textarea",
+            "id": "block_icon_subtitle_1",
+            "label": "Subheading ",
+            "default": "subheading"
+          }
+         ]
+      }
+	],
+    "presets": [
+        {
+          "name": "Typo - Block Icon",
+          "category": "Text",
+          "blocks": [
+            {
+              "type": "block"
+            },
+            {
+              "type": "block"
+            },
+            {
+              "type": "block"
+            }
+          ]
+        }
+  	]
+ }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

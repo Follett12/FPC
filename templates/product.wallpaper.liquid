@@ -1,0 +1,454 @@
+<div class="row col-main " id="product">
+   <div class="col-xs-12 col-main col-md-12 col-sm-12 product-left">
+      <div itemscope itemtype="http://schema.org/Product" class="product">
+         <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+         <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}">
+        <div class="row">
+            <div class="col-md-6 product-img-box" >
+               {% if product.images.size == 0 %}
+               <img src="{{ '' | product_img_url: 'master' }}" alt="">
+               {% else %}
+               {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+              <div style="padding-bottom:20px;">
+               <img class="" id=""  src="{{ product.images[1] | img_url: 'grande' }}" alt="{{ featured_image.alt | escape }}" data-zoom-image="{{ product.images[1].src | img_url: 'master' }}"/>
+               <img class="bottomleftframe" id="frame-ref" src=""/>
+              </div>
+               {% if product.images.size > 1 %}	
+            	<img class="myImg"  src="{{ product.images[2] | img_url: 'master' }}" alt="{{ featured_image.alt | escape }}" data-zoom-image="{{ product.images[1].src | img_url: 'master' }}"style="width:100%;max-width:200px" />
+           		<img class="myImg"  src="{{ product.images[3] | img_url: 'master' }}" alt="{{ featured_image.alt | escape }}" data-zoom-image="{{ product.images[3].src | img_url: 'master' }}"style="width:100%;max-width:200px" />
+         	 	<!-- The Modal -->
+				<div id="myModal" class="modal">
+
+ 				 	<!-- The Close Button -->
+  					<span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+  					<!-- Modal Content (The Image) -->
+  					<img class="modal-content" id="img01">
+
+ 	 				<!-- Modal Caption (Image Text) -->
+  					<div id="caption"></div>
+				</div>
+              {% endif %}
+              {% endif %}
+            </div>
+           
+            <div class="col-md-6 product-shop">
+               <div itemprop="offers" itemtype="http://schema.org/Offer">
+                  <header class="product-title {% if collection.previous_product or collection.next_product and settings.display_prev_next_product and collection %}has-btn{% endif %}">
+                    <h2 itemprop="name"><b>{{ product.title }}</b></h2>
+                   
+                     {% if product.type != 'Open Edition Prints' %} - 
+                     <h2> By {{ product.vendor }} </h2>
+                     <br> {%endif%}
+                     <h5 itemprop="name">  {{ product.type }} Collection</h5>
+                     {% if settings.display_prev_next_product and collection %}
+                     {% if collection.previous_product %}
+                     <a class="prev btn" href="{{ collection.next_product }}" title="Prev">{{'typo_product.detail.product_prev' | t}}</a>
+                     {% endif %}
+                     {% if collection.next_product %}
+                     <a class="next btn" href="{{ collection.next_product }}" title="Next">{{'typo_product.detail.product_next' | t}}</a>
+                     {% endif %}
+                     {% endif %}
+                  </header>
+                  {% if settings.display_product_reviews %}       
+                 	<span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                  {% endif %}
+                 
+                  <div class="prices">
+                     {% include 'saw_compute_discount' with product %}
+                     {% if saw_has_discount == false or saw_product_price >= saw_product_compare_at_price %}
+                     {% if product.compare_at_price > product.price %}
+                     <span class="compare-price">{{ product.compare_at_price_max | money }}</span>
+                     <span class="price on-sale" itemprop="price">{{ product.price | money }}</span>
+                     {% else %}
+                     <span class="price" itemprop="price">{{ product.price | money }}</span> /sqm
+                     {% endif %}
+                     {% else %}
+                     <span class="compare-price">{{ saw_product_compare_at_price | money }}</span>
+                     <span class="price on-sale" itemprop="price">{{ saw_product_price | money }}</span>
+                     {% endif %}
+                  </div>
+                  {% if settings.display_availability or settings.display_product_type or settings.display_vendor %}
+                  <div class="availability">
+                     {% if settings.display_availability %}
+                     <p class="product-inventory"> <label>{{'typo_product.detail.availability_label' | t}}</label><span>{% if product.selected_or_first_available_variant.inventory_management %}{% assign first_inventory = product.selected_or_first_available_variant.inventory_quantity %}{% if first_inventory > 0 %}{{first_inventory}}{{'typo_product.detail.instock_product' | t}}{% else %}{{'typo_product.detail.outstock_product' | t}}{% endif %}{% else %}{{'typo_product.detail.manystock_product' | t}}{% endif %}
+                        </span>
+                     </p>
+                     {% endif %}
+                  </div>
+                  {% endif %}
+                  {% if product.available %}
+                  <link itemprop="availability" href="http://schema.org/InStock">
+                  {% else %}
+                  <link itemprop="availability" href="http://schema.org/OutOfStock">
+                  {% endif %}
+                  <form action="/cart/add" method="post" enctype="multipart/form-data" id="add-to-cart-form">
+                     <div id="product-variants">
+                        {% assign variantCount = product.variants | size %}
+                        {% if product.available %} 
+                        {% if variantCount > 1 %}	
+                        <select id="product-selectors" name="id" style="display:none">
+                        {% for variant in product.variants %}
+                        <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                        {% endfor %}
+                        </select>
+                        {% if settings.use_color_swatch %}
+                        {% for option in product.options %}
+                        {% include 'swatch' with option %}
+                        {% endfor %}
+                        {% endif %}
+                        {% else %}
+                        <input type="hidden" name="id" value="{{ product.variants[0].id }}" />
+                        {% endif %}
+                        {% endif %}
+                     </div>
+                     {% if product.available %} 
+                     {% else %}
+                     Sorry but this product is not available in this current variation.
+                     {% endif %}
+
+                     <p id="demo"></p>
+                      
+                     <!--<button type="submit" name="add" data-toggle="tooltip" data-placement="top" title="{{'typo_product.detail.add_cart' | t }}" class="btn" id="product-add-to-cart">{{'typo_product.detail.add_cart' | t }}</button>-->
+                    <div style="margin:0 auto;" class="pxFormGenerator" id="EdMt62wdmJ9Fdpmlll0B7g"></div>
+                  </form>
+              
+                  <!-- this is where wishlist is put now, removed from wishlist-product.liqued so that it is a considered seperate from the hover effect wishlist-->
+                  <!--<div class="product-wishlist">
+                     <div class="default-wishbutton-{{ product.handle }}">
+                        <a class="add-to-wishlist" href="{{ product.handle | handleize }}"><b>ADD TO MOOD BOARD </b></a>
+                     </div>
+                     <div class="added-wishbutton-{{ product.handle }}" style="display: none;">
+                        <a class="added-wishlist" href="/pages/wishlist"><i class="fa fa-check"></i> </a>
+                     </div>
+                  </div>
+                 
+                  <br>
+                  <br>-->
+                  <!-- zipmoney widgets--> 
+                  <!--{% include 'zip-widget' %}
+                  <p><a style="cursor:pointer" id="shopify-prod-calc" data-zm-widget="repaycalc" data-zm-amount="20" data-zm-info="true"></a></p>-->
+                  <!-- end zipmoney widgets -->
+               </div>
+              </div>
+        </div>
+      </div>
+     
+      <div class="product-tabs ">
+         <div class="product-tabs-title">
+            <ul class="nav nav-tabs" id="myTab">
+               {% if settings.display_product_detail_description %}
+               <li class="active"><a data-toggle="tab" href="#collapse-tab1">{{ settings.product_description_title }}</a></li>
+               <li><a data-toggle="tab" href="#collapse-tab2"><b>Material Details</b></a></li>
+               {% endif %}
+            </ul>
+         </div>
+         <div id="myTabContent" class="tab-content">
+            {% if settings.display_product_detail_description %}
+            <div id="collapse-tab1" class="tab-pane fade in active">
+               {{ product.description }}
+            </div>
+            {% endif %}
+            <!-- Instead of displaying reviews we display a snippet that gives framed sizing-->
+            {% if settings.display_product_reviews %}       
+            <div id="collapse-tab2" class="tab-pane fade">
+               {% comment %}
+               Add product review widget, must install Product Review App:
+               https://apps.shopify.com/product-reviews
+               {% endcomment %}
+             <strong>PRODUCT DESCRIPTION</strong><br />Roll Size: 1370mm (W) x 50m <br />Matt Textured <br />Calendered<br />Stay Flat<br />3yr Resistance<br />Clear Acrylic
+            </div>
+            {% endif %}
+         </div>
+      </div>
+     {% include 'related-products' %}
+      <script>
+         jQuery('#myTab a').click(function (e) {
+           e.preventDefault();
+           jQuery(this).tab('show');
+         })
+      </script>
+      {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+   </div>
+</div>
+{% if settings.style_thumb_image == 'horizontal'%}
+<script>
+   jQuery(document).ready(function(){
+     jQuery('#zt_list_product li').first().find('a').addClass('zoomGalleryActive');
+     jQuery(".thumb-image-mobile").owlCarousel({
+       itemsCustom : [[320, 1],[767, 1],[768, 1],[1024, 2],[1025, 1],[1600, 1]],pagination : true,navigation : true,navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>']
+     });
+     if (jQuery(window).width() > 767) {jQuery(document).ready(function() {jQuery("#zt_list_product ul").jcarousel({vertical: true}).css("visibility", "visible");jQuery(".product-img-box").addClass("has-jcarousel");jQuery(".thumbs").css("visibility", "visible")});}
+   });
+</script>
+{{ 'jquery.jcarousel.latest.min.js' | asset_url | script_tag }}
+{% endif %}
+{% if settings.style_thumb_image == 'vertical'%}
+<script>
+   jQuery(window).load(function() { 
+     jQuery('#zt_list_product .owl-wrapper .owl-item').first().find('a').addClass('zoomGalleryActive');
+   });
+   jQuery(document).ready(function(){
+     jQuery("#zt_list_product").owlCarousel({
+       itemsCustom : [[320, 1],[767, 2],[768, 3],[1024, 3],[1025, 3],[1600, 3]],
+       pagination : true,navigation : true,navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>']
+     });
+   });
+</script>
+{{ 'owl.carousel.min.js' | asset_url | script_tag }}
+{% endif %}
+{% if settings.style_thumb_image == 'ticky'%}
+<script>
+   if (jQuery(window).width() > 767) {
+       jQuery(document).ready(function(){ if ($('.typo-main')[0]) {jQuery(window).resize(function () {if (jQuery(window).width() > 768) {var wraper_product, item_product, maxMove_product, item, sticky_image;wraper_product = $('.typo-main #product').outerHeight(true);item_product = $('.product-shop > div').outerHeight(true);maxMove_product = wraper_product - item_product;$('.product-shop').data('maxMove_product', maxMove_product);sticky_image = 0;if ($('#header-content .header')[0]) {sticky_image = $('#header-content').height();console.log(sticky_image);}var wrapptoTop = $('.typo-main #product').offset().top - sticky_image;jQuery(window).bind("scroll", function () {var toTop;item = $('.product-shop');maxMove_product = item.data('maxMove_product');toTop = $(window).scrollTop() - wrapptoTop;if (toTop > 0 && toTop <= maxMove_product) {item.css('padding-top', toTop + 'px');}if ($(window).scrollTop() < wrapptoTop) {item.css('padding-top', 0 + 'px');}if (toTop > maxMove_product) {item.css('padding-top', maxMove_product + 'px');}});}}).resize();}})
+    }
+</script>
+{% endif %}
+<script>
+   function thumbs() {
+     $("#zt_list_product .image-item").eq(0).addClass("active"),
+       $("#zt_list_product .image-item").click(function() {
+       var a = $(this).index();
+       $("#zt_list_product .image-item").removeClass("active"),$(this).addClass("active"),$("#product_owl").trigger("owl.goTo", a)
+     }),$("#zt_list_product li").length > 4 ? $(".js-thumb").removeClass("thumbs").addClass("thumbs") : $(".js-thumb").removeClass("thumbs")
+   }
+   
+   function changeslide() {
+     var a = function() {
+       jQuery(this).owlCarousel({singleItem: !0,lazyLoad: !0,dots: !0,navigation : true,
+         afterInit: function(a) {     },
+         afterMove: function(a) {     }
+       })
+     },
+         b = function(b) {
+           var url = "/products/" + "{{ product.handle }}" + ".js" ;
+           $.getJSON( url , {
+             format: "json"
+           })
+           .done(function( data ) {              
+             for(i=0;i<data.variants.length;i++){
+               if(data.variants[i].option1 == b){
+                 $("#product_owl").find("img").each(function(){
+                   var mainImgSrc = data.variants[i].featured_image.src;
+                   var prefix = data.variants[i].featured_image.src.split("//")[0].length;
+                   var srcIngorePrefix = mainImgSrc.substring(prefix);                
+                   if(srcIngorePrefix == $(this).data('image')){
+                     $("#product_owl").trigger("owl.goTo", $(this).parent().parent().index());
+                   }
+                 })
+               }
+   
+             }
+           })
+         };
+   
+     value = $(".single-option-selector").val(), b(value)
+   }
+   
+   $('.swatch.color .swatch-element').first().addClass('active')
+   $('.swatch.color .swatch-element').click(function(){
+     if ($('.swatch.color.swatch-element').hasClass('active')){$('.swatch.color .swatch-element').removeClass('active');$(this).addClass('active');}else{$('.swatch.color .swatch-element').removeClass('active');$(this).addClass('active');  }
+   });
+   
+   //Shopify.Image.preload({{ product.images | json }}, 'grande');
+   
+   {% if settings.display_subtotal and product.available %} 
+   //update price when changing quantity
+   function updatePricing() {
+     //try pattern one before pattern 2
+     var regex = /([0-9]+[.|,][0-9]+[.|,][0-9]+)/g;
+     var unitPriceTextMatch = jQuery('.product .price').text().match(regex);
+   
+     if (!unitPriceTextMatch) {
+       regex = /([0-9]+[.|,][0-9]+)/g;
+       unitPriceTextMatch = jQuery('.product .price').text().match(regex);      
+     }
+     if (unitPriceTextMatch) {
+       var unitPriceText = unitPriceTextMatch[0];      
+       var unitPrice = unitPriceText.replace(/[.|,]/g,'');
+       var quantity = parseInt(jQuery('#quantity').val());
+       var totalPrice = unitPrice * quantity;
+       var totalPriceText = Shopify.formatMoney(totalPrice, window.money_format);
+       totalPriceText = totalPriceText.match(regex)[0];
+       var regInput = new RegExp(unitPriceText, "g");  
+       var totalPriceHtml = jQuery('.product .price').html().replace(regInput ,totalPriceText); 
+       jQuery('.product .total-price span').html(totalPriceHtml);      
+     }
+   }
+   jQuery('#quantity').on('change', updatePricing);
+   {% endif %}
+   
+   var selectCallback = function(variant, selector) {
+     var addToCart = jQuery('#product-add-to-cart'),
+         productPrice = jQuery('.product .price'),
+         comparePrice = jQuery('.product .compare-price');  
+   
+       if (variant) {
+         
+      	//This allows for the frames to appear when changing varients.
+         //pretty simple, I slice the SKU to get the FPC version of the code, from there I read it and apply a frame depending on the remaining string
+         //using JS we get element by ID and apply an image based on the frame to a absolute positioned image on the bottom left that displays a 3d view of the frame.
+   		$('.variant-sku').text(variant.sku);
+       	var x =variant.sku.slice(-3);
+   }else {
+   		$('.variant-sku').empty();
+     
+     }
+   
+     if (variant) {
+       if (variant.available) {
+         // We have a valid product variant, so enable the submit button
+     
+         document.getElementById("demo").innerHTML = "";
+       
+         addToCart.removeClass('disabled').removeAttr('disabled').val('{{'typo_product.detail.add_cart' | t}}');
+                                                                      $('#add-to-cart-form .clear_fix').removeClass("button-unva");
+       } else {
+         
+         addToCart.val('Sold Out').addClass('disabled').attr('disabled', 'disabled');
+       }
+       productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+   
+         if ( variant.compare_at_price > variant.price ) {
+              productPrice.addClass("on-sale")
+       comparePrice
+       .html(Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}"))
+             .show();
+             } else {
+             comparePrice.hide();
+       productPrice.removeClass("on-sale");
+     }
+     {% if settings.use_color_swatch %}
+     // BEGIN SWATCHES
+     var form = jQuery('#' + selector.domIdPrefix).closest('form');
+     for (var i=0,length=variant.options.length; i<length; i++) {
+       var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+       if (radioButton.size()) {
+         radioButton.get(0).checked = true;
+       }
+     }
+     // END SWATCHES
+     {% endif %}
+   
+     {% if settings.display_subtotal and product.available %}  
+     updatePricing();
+     {% endif %}
+   
+   } else {
+     document.getElementById("demo").innerHTML = "This Variant of the product is not avaliable online";
+     addToCart.val('Unavailable').addClass('disabled').attr('disabled', 'disabled');
+   }
+   
+   
+   {% if settings.display_availability %}
+   if (variant.available) {
+     if (variant.inventory_management!=null && tag contains 'Limited Editions') {jQuery(".product-inventory span").text(variant.inventory_quantity + " in stock");} else {jQuery(".product-inventory span").text("Many in stock");}} else {jQuery(".product-inventory span").text("Out of stock");}
+   {% endif %}
+   
+   
+   
+   if (variant && variant.featured_image) {
+     var originalImage = jQuery("#product-featured-image");
+     var newImage = variant.featured_image;
+     var element = originalImage[0];
+     function removeExtent(str){var arr = str.split("v=");if(arr[0])return arr[0];}
+   
+     Shopify.Image.switchImage(newImage, element, function (newImageSizedSrc, newImage, element) {
+       jQuery('#zt_list_product img').each(function() {
+         var grandSize = jQuery(this).attr('src');
+         grandSize = grandSize.replace('_master','');grandSize = grandSize.replace('.jpg.jpg','.jpg');grandSize = removeExtent(grandSize);newImageSizedSrc = newImageSizedSrc.replace('https:','');newImageSizedSrc = newImageSizedSrc.replace('http:','');newImageSizedSrc = newImageSizedSrc.replace('_master','');newImageSizedSrc = newImageSizedSrc.replace('.jpg.jpg','.jpg');newImageSizedSrc = removeExtent(newImageSizedSrc);console.log('1ff'+newImageSizedSrc);console.log('2ff'+grandSize);
+         if (grandSize == newImageSizedSrc) {jQuery(this).addClass('active');jQuery(this).parent().trigger('click'); return false;}
+       });
+     });        
+   }
+   
+   
+   
+   // =======CUSTOM======
+   changeslide();
+   // ====END CUSTOM=====
+   /*end of variant image*/
+   
+   };
+   $(document).ready(function() {
+     jQuery('#product_owl').each(function() {
+       jQuery(this).owlCarousel({singleItem:true,lazyLoad : true,dots:false,navigation : true,navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+         afterInit: function (elem) {},
+         afterMove: function (elem) {}
+       }); 
+     });
+   });
+   
+   jQuery(function($) {
+     {% if product.available and product.variants.size > 1 %}
+     	new Shopify.OptionSelectors('product-selectors', {product: {%- include 'saw_product_json' with product -%}
+        {{- saw_json -}},onVariantSelected: selectCallback, enableHistoryState: true});                                                  
+     {% if settings.use_color_swatch and product.available and product.options.size > 1 %}Shopify.linkOptionSelectors({{ product | json }});{% endif %} 
+       {% if settings.use_color_swatch != true %}jQuery('.single-option-selector').selectize();jQuery('.selectize-input input').attr("disabled","disabled");{% endif %}
+     {% endif %}
+     
+     {% if product.options.size == 1 and product.options.first != 'Title' %}$('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');{% endif %}
+   {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}$('.selector-wrapper').hide();{% endif %}
+   
+     // Auto-select first available variant on page load. Otherwise the product looks sold out.
+     {% assign found_one_in_stock = false %}
+     {% for variant in product.variants %}
+     {% if variant.available and found_one_in_stock == false %}
+     {% assign found_one_in_stock = true %}
+     {% for option in product.options %}
+     $('.single-option-selector:eq({{ forloop.index0 }})').val({{ variant.options[forloop.index0] | json }}).trigger('change');
+     {% endfor %}
+     {% endif %}
+     {% endfor %}
+   
+     {% if settings.display_product_reviews %}  
+     var reviewsTimeout = setInterval(function() {
+       if (jQuery(".spr-badge-caption").length>0) {jQuery(".spr-badge-caption").on('click', function() {jQuery('html,body').animate({scrollTop: jQuery(".panel:last").offset().top},'400');jQuery("#collapse-tab4").collapse('show');});clearInterval(reviewsTimeout);}
+     },1000);
+     {% endif %}
+   });
+    		//If a product has only 1 variant and has a tag then the frame will be applied.
+   		//used to make sale or single products be viewable with a frame.
+           {% if product.variants.size > 1 %}
+           {%else%}
+           	{% for tag in product.tags %}
+           		{% if tag contains 'bframe' %}
+   				  	var frame1 = document.getElementById("frame").classList;
+   					frame1.add("frameblack");
+   				{% elsif tag contains 'wframe'%}
+   					var frame1 = document.getElementById("frame").classList;
+   					frame1.add("framewhite");
+   			{% elsif tag contains 'sframe'%}
+   					var frame1 = document.getElementById("frame").classList;
+   					frame1.add("framescandi");
+   				{% elsif tag contains 'gframe'%}
+   					var frame1 = document.getElementById("frame").classList;
+   					frame1.add("framegold");
+   				{%endif%}
+   
+   			{% endfor %}
+     {% endif %}
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = $('.myImg');
+var modalImg = $("#img01");
+var captionText = document.getElementById("caption");
+$('.myImg').click(function(){
+    modal.style.display = "block";
+    var newSrc = this.src;
+    modalImg.attr('src', newSrc);
+    captionText.innerHTML = this.alt;
+});
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+   
+</script>

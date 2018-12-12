@@ -1,0 +1,523 @@
+<div class="row col-main " id="product">
+   <div class="col-xs-12 col-main col-md-12 col-sm-12 product-left">
+      <div itemscope itemtype="http://schema.org/Product" class="product">
+         <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+         <meta itemprop="image" content="{{ product.featured_image.src | product_img_url: 'grande' }}">
+         <div class="row">
+            <div class="col-md-8 product-img-box" style="padding-bottom:20px;">
+               {% if product.images.size == 0 %}
+               <img src="{{ '' | product_img_url: 'master' }}" alt="">
+               {% else %}
+               {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+               <img class="noframe imagefix" id="product-featured-image" src="{{ product.images[1] | img_url: 'grande' }}" alt="{{ featured_image.alt | escape }}" data-zoom-image="{{ product.images[1].src | img_url: 'master' }}"/>
+               <img class="bottomleftframe" id="frame-ref" src=""/>
+               {% endif %}
+            </div>
+            <div class="col-md-4 product-shop">
+               <div itemprop="offers" itemtype="http://schema.org/Offer">
+                  <header class="product-title">
+                     <h2 itemprop="name"><strong>{{ product.title }}</strong></h2>
+                     {% if product.type != 'Open Edition Prints' %} 
+                     <b>BY</b> <a href="https://fineprintco.com/collections/{{product.vendor | replace: " " , "-" }}">{{ product.vendor}}</a>
+                     {% else %}
+                     <a href="https://fineprintco.com/collections/{{product.type | replace: " " , "-" }}" style="font-size:0.8vw !important"> {{ product.type }} COLLECTION </a>
+                     {%endif%}
+                  </header>
+                  <div class="prices">
+                     {% include 'saw_compute_discount' with product %}
+                     {% if saw_has_discount == false or saw_product_price >= saw_product_compare_at_price %}
+                     {% if product.compare_at_price > product.price %}
+                     <span class="compare-price">{{ product.compare_at_price_max | money }}</span>
+                     <span class="price on-sale" itemprop="price">{{ product.price | money }}</span>
+                     {% else %}
+                     <span class="price" itemprop="price">{{ product.price | money }}</span>
+                     {% endif %}
+                     {% else %}
+                     <span class="compare-price">{{ saw_product_compare_at_price | money }}</span>
+                     <span class="price on-sale" itemprop="price">{{ saw_product_price | money }}</span>
+                     {% endif %}
+                  </div>
+                  {% assign sku = product.variants.first.sku %}
+                  {% assign size = sku | size | minus: 6 %}
+                  SKU: {{ sku | slice: 0, size }}
+                  <form action="/cart/add" method="post" enctype="multipart/form-data" id="add-to-cart-form">
+                     <div id="product-variants">
+                        {% assign variantCount = product.variants | size %}
+                        {% if product.available %} 
+                        {% if variantCount > 1 %}	
+                        <select id="product-selectors" name="id" style="display:none">
+                        {% for variant in product.variants %}
+                        <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                        {% endfor %}
+                        </select>
+                        {% if settings.use_color_swatch %}
+                        {% for option in product.options %}
+                        {% include 'swatch' with option %}
+                        {% endfor %}
+                        {% endif %}
+                        <!--ata-toggle="tab" ref="#collapse-tab2">Framing Information</a>-->
+                        <a data-toggle="tab" href="#collapse-tab2" onclick="frameinfo()"><b>View Framed Sizing and Information</b></a>
+                        {% else %}
+                        <input type="hidden" name="id" value="{{ product.variants[0].id }}" />
+                        {% endif %}
+                        {% endif %}
+                     </div>
+                     {% if product.available %} 
+                     {% else %}
+                     Sorry but this product is not available in this current variation.
+                     {% endif %}
+                     {% if product.available %} 
+                     <div class="dec button">{{'typo_product.detail.qty' | t }}:</div>
+                     <div class="wrap-qty">
+                        <div class="custom-qty">
+                           <input type="hidden" id="quantity" name="quantity" value="1">
+                           <div class="btn-plus">
+                              <!--<span class="up-qty"><i class="fa fa-plus"></i></span>
+                                 <span class="down-qty"><i class="fa fa-minus"></i></span>-->
+                           </div>
+                        </div>
+                     </div>
+                     <p id="demo"></p>
+                     <button type="submit" name="add" data-toggle="tooltip" data-placement="top" title="{{'typo_product.detail.add_cart' | t }}" class="btn" id="product-add-to-cart">{{'typo_product.detail.add_cart' | t }}</button>
+                     {% endif %}
+                  </form>
+                  <!-- this is where wishlist is put now, removed from wishlist-product.liqued so that it is a considered seperate from the hover effect wishlist-->
+                  <div class="product-wishlist">
+                     <div class="default-wishbutton-{{ product.handle }}">
+                        <a class="btn block2" href="https://fineprintco.com/cart"><b>VIEW CART</b></a>
+                     </div>
+                  </div>
+                  <br>
+                  <br>
+                  <!-- zipmoney widgets--> 
+                  {% include 'zip-widget' %}
+                  <p><a style="cursor:pointer" id="shopify-prod-calc" data-zm-widget="repaycalc" data-zm-amount="20" data-zm-info="true"></a></p>
+                  <!-- end zipmoney widgets -->
+               </div>
+            </div>
+         </div>
+      </div>
+      <a href="#" id="anchor">
+         <div class="product-tabs ">
+            <div class="product-tabs-title">
+               <ul class="nav nav-tabs" id="myTab">
+                  {% if settings.display_product_detail_description %}
+                  <li id='t1' class="active">
+      <a data-toggle="tab" href="#collapse-tab1">{{ settings.product_description_title }}</a></li>
+      {% endif %}
+      {% if settings.display_product_reviews %}       
+      <li id='t2'><a data-toggle="tab" href="#collapse-tab2"><b>View Framed Sizing and Information</b></a></li>
+      {% endif %}
+      </ul>
+      </div>
+      <div id="myTabContent" class="tab-content">
+      {% if settings.display_product_detail_description %}
+      <div id="collapse-tab1" class="tab-pane fade in active">
+      {{ product.description }}
+      </div>
+      {% endif %}
+      <!-- Instead of displaying reviews we display a snippet that gives framed sizing-->
+      {% if settings.display_product_reviews %}       
+      <div id="collapse-tab2" class="tab-pane fade">
+      <img src="https://cdn.shopify.com/s/files/1/2439/0231/files/Standard-Framing.png" />
+      <img src="https://cdn.shopify.com/s/files/1/2439/0231/files/canvas-framing.png" />
+      {% comment %}
+      Add product review widget, must install Product Review App:
+      https://apps.shopify.com/product-reviews
+      {% endcomment %}
+      <!-- this changes what frame sizing sheet is displayed depending on what type the product is assigned-->
+      {% if product.type == 'Slim Aarons' %}
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{% include 'sizing-slims' %}</div>
+      {% elsif product.type == 'Artist Editions'  %}
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{% include 'sizing-artist' %}</div>
+      {% elsif product.type == 'Archival Collection' %}
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{% include 'sizing-arc' %}</div>
+      {% elsif product.type == 'Limited Editions' %}
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{% include 'sizing-limited' %}</div>
+      {% elsif product.type == 'Open Edition Prints' %}
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{% include 'sizing-opens' %}</div>
+      {% elsif product.type == 'Open Editions' %}
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{% include 'sizing-opens' %}</div>
+      {% elsif product.type == 'Trunk Archive' %}
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{% include 'Sizing-trunk' %}</div>
+      {% else %}
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{% include 'sizing-artist' %}</div>
+      {% endif %}
+      <p>*All sizes are in millimetres</p>
+      <p>*Contact digital@fineprintco.com for bespoke framing order</p>
+      </div>
+      {% endif %}
+      </div>
+      </div>
+      {% include 'related-products' %}
+      <script>
+         jQuery('#myTab a').click(function (e) {
+           e.preventDefault();
+           jQuery(this).tab('show');
+         })
+      </script>
+      {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+   </div>
+</div>
+{% if settings.style_thumb_image == 'horizontal'%}
+<script>
+   jQuery(document).ready(function(){
+     jQuery('#zt_list_product li').first().find('a').addClass('zoomGalleryActive');
+     jQuery(".thumb-image-mobile").owlCarousel({
+       itemsCustom : [[320, 1],[767, 1],[768, 1],[1024, 2],[1025, 1],[1600, 1]],pagination : true,navigation : true,navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>']
+     });
+     if (jQuery(window).width() > 767) {jQuery(document).ready(function() {jQuery("#zt_list_product ul").jcarousel({vertical: true}).css("visibility", "visible");jQuery(".product-img-box").addClass("has-jcarousel");jQuery(".thumbs").css("visibility", "visible")});}
+   });
+</script>
+{{ 'jquery.jcarousel.latest.min.js' | asset_url | script_tag }}
+{% endif %}
+{% if settings.style_thumb_image == 'vertical'%}
+<script>
+   jQuery(window).load(function() { 
+     jQuery('#zt_list_product .owl-wrapper .owl-item').first().find('a').addClass('zoomGalleryActive');
+   });
+   jQuery(document).ready(function(){
+     jQuery("#zt_list_product").owlCarousel({
+       itemsCustom : [[320, 1],[767, 2],[768, 3],[1024, 3],[1025, 3],[1600, 3]],
+       pagination : true,navigation : true,navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>']
+     });
+   });
+</script>
+{{ 'owl.carousel.min.js' | asset_url | script_tag }}
+{% endif %}
+{% if settings.style_thumb_image == 'ticky'%}
+<script>
+   if (jQuery(window).width() > 767) {
+       jQuery(document).ready(function(){ if ($('.typo-main')[0]) {jQuery(window).resize(function () {if (jQuery(window).width() > 768) {var wraper_product, item_product, maxMove_product, item, sticky_image;wraper_product = $('.typo-main #product').outerHeight(true);item_product = $('.product-shop > div').outerHeight(true);maxMove_product = wraper_product - item_product;$('.product-shop').data('maxMove_product', maxMove_product);sticky_image = 0;if ($('#header-content .header')[0]) {sticky_image = $('#header-content').height();console.log(sticky_image);}var wrapptoTop = $('.typo-main #product').offset().top - sticky_image;jQuery(window).bind("scroll", function () {var toTop;item = $('.product-shop');maxMove_product = item.data('maxMove_product');toTop = $(window).scrollTop() - wrapptoTop;if (toTop > 0 && toTop <= maxMove_product) {item.css('padding-top', toTop + 'px');}if ($(window).scrollTop() < wrapptoTop) {item.css('padding-top', 0 + 'px');}if (toTop > maxMove_product) {item.css('padding-top', maxMove_product + 'px');}});}}).resize();}})
+    }
+</script>
+{% endif %}
+<script>
+   function thumbs() {
+     $("#zt_list_product .image-item").eq(0).addClass("active"),
+       $("#zt_list_product .image-item").click(function() {
+       var a = $(this).index();
+       $("#zt_list_product .image-item").removeClass("active"),$(this).addClass("active"),$("#product_owl").trigger("owl.goTo", a)
+     }),$("#zt_list_product li").length > 4 ? $(".js-thumb").removeClass("thumbs").addClass("thumbs") : $(".js-thumb").removeClass("thumbs")
+   }
+   
+   function changeslide() {
+     var a = function() {
+       jQuery(this).owlCarousel({singleItem: !0,lazyLoad: !0,dots: !0,navigation : true,
+         afterInit: function(a) {     },
+         afterMove: function(a) {     }
+       })
+     },
+         b = function(b) {
+           var url = "/products/" + "{{ product.handle }}" + ".js" ;
+           $.getJSON( url , {
+             format: "json"
+           })
+           .done(function( data ) {              
+             for(i=0;i<data.variants.length;i++){
+               if(data.variants[i].option1 == b){
+                 $("#product_owl").find("img").each(function(){
+                   var mainImgSrc = data.variants[i].featured_image.src;
+                   var prefix = data.variants[i].featured_image.src.split("//")[0].length;
+                   var srcIngorePrefix = mainImgSrc.substring(prefix);                
+                   if(srcIngorePrefix == $(this).data('image')){
+                     $("#product_owl").trigger("owl.goTo", $(this).parent().parent().index());
+                   }
+                 })
+               }
+   
+             }
+           })
+         };
+   
+     value = $(".single-option-selector").val(), b(value)
+   }
+   
+   $('.swatch.color .swatch-element').first().addClass('active')
+   $('.swatch.color .swatch-element').click(function(){
+     if ($('.swatch.color.swatch-element').hasClass('active')){$('.swatch.color .swatch-element').removeClass('active');$(this).addClass('active');}else{$('.swatch.color .swatch-element').removeClass('active');$(this).addClass('active');  }
+   });
+   
+   //Shopify.Image.preload({{ product.images | json }}, 'grande');
+   
+   {% if settings.display_subtotal and product.available %} 
+   //update price when changing quantity
+   function updatePricing() {
+     //try pattern one before pattern 2
+     var regex = /([0-9]+[.|,][0-9]+[.|,][0-9]+)/g;
+     var unitPriceTextMatch = jQuery('.product .price').text().match(regex);
+   
+     if (!unitPriceTextMatch) {
+       regex = /([0-9]+[.|,][0-9]+)/g;
+       unitPriceTextMatch = jQuery('.product .price').text().match(regex);      
+     }
+     if (unitPriceTextMatch) {
+       var unitPriceText = unitPriceTextMatch[0];      
+       var unitPrice = unitPriceText.replace(/[.|,]/g,'');
+       var quantity = parseInt(jQuery('#quantity').val());
+       var totalPrice = unitPrice * quantity;
+       var totalPriceText = Shopify.formatMoney(totalPrice, window.money_format);
+       totalPriceText = totalPriceText.match(regex)[0];
+       var regInput = new RegExp(unitPriceText, "g");  
+       var totalPriceHtml = jQuery('.product .price').html().replace(regInput ,totalPriceText); 
+       jQuery('.product .total-price span').html(totalPriceHtml);      
+     }
+   }
+   jQuery('#quantity').on('change', updatePricing);
+   {% endif %}
+   
+   var selectCallback = function(variant, selector) {
+     var addToCart = jQuery('#product-add-to-cart'),
+         productPrice = jQuery('.product .price'),
+         comparePrice = jQuery('.product .compare-price');  
+   
+       if (variant) {
+         
+      	//This allows for the frames to appear when changing varients.
+         //pretty simple, I slice the SKU to get the FPC version of the code, from there I read it and apply a frame depending on the remaining string
+         //using JS we get element by ID and apply an image based on the frame to a absolute positioned image on the bottom left that displays a 3d view of the frame.
+   		$('.variant-sku').text(variant.sku);
+       	var x =variant.sku.slice(-3);
+         if (!/Mobi/.test(navigator.userAgent)) {
+       	if(x == "P-B" || x == "R-B" || x == "M-B"|| x == "C-B"){
+         	var frame1 = document.getElementById("product-featured-image").classList;
+          	frame1.remove("noframe");  
+           	frame1.remove("framewhite");
+           	frame1.remove("framescandi");
+           	frame1.remove("framegold");
+           	frame1.remove("noframe");
+           	frame1.add("frameblack");
+            document.getElementById("frame-ref").src="";
+         }else
+       	if(x == "P-W" || x == "R-W" || x == "M-W" || x == "C-W"){
+         	var frame1 = document.getElementById("product-featured-image").classList;
+          	frame1.remove("noframe");  
+           	frame1.add("framewhite");
+           	frame1.remove("framescandi");
+           	frame1.remove("framegold");
+           	frame1.remove("noframe");
+           	frame1.remove("frameblack");
+          document.getElementById("frame-ref").src="";
+         }else
+       	if(x == "P-S" || x == "R-S" || x == "M-S"|| x == "C-S"){
+         	var frame1 = document.getElementById("product-featured-image").classList;
+          	frame1.remove("noframe");  
+           	frame1.remove("framewhite");
+           	frame1.add("framescandi");
+           	frame1.remove("framegold");
+           	frame1.remove("noframe");
+           	frame1.remove("framesilver");
+          frame1.remove("frameblack");
+          document.getElementById("frame-ref").src="";
+         }else
+       	if(x == "P-G" || x == "R-G" || x == "M-G" || x == "C-G"){
+         	var frame1 = document.getElementById("product-featured-image").classList;
+          	frame1.remove("noframe");  
+           	frame1.remove("framewhite");
+           	frame1.remove("framescandi");
+           	frame1.add("framegold");
+           	frame1.remove("noframe");
+           	frame1.remove("frameblack");
+          frame1.remove("framesilver");
+          document.getElementById("frame-ref").src="";
+         }else
+       	if(x == "P-N" || x == "R-N" || x == "C-N"|| x == "M-N"){
+         	var frame1 = document.getElementById("product-featured-image").classList;
+   frame1.remove("noframe");  
+           	frame1.remove("framewhite");
+           	frame1.remove("framescandi");
+           	frame1.remove("framegold");
+           	frame1.add("noframe");
+           	frame1.remove("frameblack");
+          frame1.remove("framesilver");
+          document.getElementById("frame-ref").src="";
+         }else
+           
+       	if(x == "-SS"){
+         	var frame1 = document.getElementById("product-featured-image").classList;
+          	frame1.remove("noframe");
+           	frame1.remove("framewhite");
+           	frame1.remove("framescandi");
+           	frame1.remove("framegold");
+           	frame1.add("framesilver");
+           	frame1.remove("frameblack");
+          frame1.remove("framesilver");
+          	document.getElementById("frame-ref").src="https://cdn.shopify.com/s/files/1/2439/0231/files/Scandi-Silver.png?5863896742205116579";
+           }else
+       	if(x == "-GS"){
+         	var frame1 = document.getElementById("product-featured-image").classList;
+          	frame1.remove("noframe");
+           	frame1.remove("framewhite");
+           	frame1.remove("framescandi");
+           	frame1.remove("framegold");
+           	frame1.add("noframe");
+           	frame1.remove("frameblack");
+          frame1.remove("framesilver");
+          	document.getElementById("frame-ref").src="https://cdn.shopify.com/s/files/1/2439/0231/files/Scandi-Gold.png?17253162833464768285";
+         }else{
+           	var frame1 = document.getElementById("product-featured-image").classList;
+         	frame1.remove("noframe");  
+           	frame1.remove("framewhite");
+           	frame1.remove("framescandi");
+           	frame1.remove("framegold");
+           	frame1.add("noframe");
+           	frame1.remove("frameblack");
+           frame1.remove("framesilver");
+           document.getElementById("frame-ref").src="";
+         }
+         }
+   }else {
+   		$('.variant-sku').empty();
+     
+     }
+   
+     if (variant) {
+       if (variant.available) {
+         // We have a valid product variant, so enable the submit button
+     
+         document.getElementById("demo").innerHTML = "";
+       
+         addToCart.removeClass('disabled').removeAttr('disabled').val('{{'typo_product.detail.add_cart' | t}}');
+                                                                      $('#add-to-cart-form .clear_fix').removeClass("button-unva");
+       } else {
+         
+         addToCart.val('Sold Out').addClass('disabled').attr('disabled', 'disabled');
+       }
+       productPrice.html(Shopify.formatMoney(variant.price, "{{ shop.money_format }}"));
+   
+         if ( variant.compare_at_price > variant.price ) {
+              productPrice.addClass("on-sale")
+       comparePrice
+       .html(Shopify.formatMoney(variant.compare_at_price, "{{ shop.money_format }}"))
+             .show();
+             } else {
+             comparePrice.hide();
+       productPrice.removeClass("on-sale");
+     }
+     {% if settings.use_color_swatch %}
+     // BEGIN SWATCHES
+     var form = jQuery('#' + selector.domIdPrefix).closest('form');
+     for (var i=0,length=variant.options.length; i<length; i++) {
+       var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+       if (radioButton.size()) {
+         radioButton.get(0).checked = true;
+       }
+     }
+     // END SWATCHES
+     {% endif %}
+   
+     {% if settings.display_subtotal and product.available %}  
+     updatePricing();
+     {% endif %}
+   
+   } else {
+     document.getElementById("demo").innerHTML = "This Variant of the product is not avaliable online";
+     addToCart.val('Unavailable').addClass('disabled').attr('disabled', 'disabled');
+   }
+   
+   
+   {% if settings.display_availability %}
+   if (variant.available) {
+     if (variant.inventory_management!=null && tag contains 'Limited Editions') {jQuery(".product-inventory span").text(variant.inventory_quantity + " in stock");} else {jQuery(".product-inventory span").text("Many in stock");}} else {jQuery(".product-inventory span").text("Out of stock");}
+   {% endif %}
+   
+   
+   
+   if (variant && variant.featured_image) {
+     var originalImage = jQuery("#product-featured-image");
+     var newImage = variant.featured_image;
+     var element = originalImage[0];
+     function removeExtent(str){var arr = str.split("v=");if(arr[0])return arr[0];}
+   
+     Shopify.Image.switchImage(newImage, element, function (newImageSizedSrc, newImage, element) {
+       jQuery('#zt_list_product img').each(function() {
+         var grandSize = jQuery(this).attr('src');
+         grandSize = grandSize.replace('_master','');grandSize = grandSize.replace('.jpg.jpg','.jpg');grandSize = removeExtent(grandSize);newImageSizedSrc = newImageSizedSrc.replace('https:','');newImageSizedSrc = newImageSizedSrc.replace('http:','');newImageSizedSrc = newImageSizedSrc.replace('_master','');newImageSizedSrc = newImageSizedSrc.replace('.jpg.jpg','.jpg');newImageSizedSrc = removeExtent(newImageSizedSrc);console.log('1ff'+newImageSizedSrc);console.log('2ff'+grandSize);
+         if (grandSize == newImageSizedSrc) {jQuery(this).addClass('active');jQuery(this).parent().trigger('click'); return false;}
+       });
+     });        
+   }
+   
+   
+   
+   // =======CUSTOM======
+   changeslide();
+   // ====END CUSTOM=====
+   /*end of variant image*/
+   
+   };
+   $(document).ready(function() {
+     jQuery('#product_owl').each(function() {
+       jQuery(this).owlCarousel({singleItem:true,lazyLoad : true,dots:false,navigation : true,navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+         afterInit: function (elem) {},
+         afterMove: function (elem) {}
+       }); 
+     });
+   });
+   
+   jQuery(function($) {
+     {% if product.available and product.variants.size > 1 %}
+     	new Shopify.OptionSelectors('product-selectors', {product: {%- include 'saw_product_json' with product -%}
+        {{- saw_json -}},onVariantSelected: selectCallback, enableHistoryState: true});                                                  
+     {% if settings.use_color_swatch and product.available and product.options.size > 1 %}Shopify.linkOptionSelectors({{ product | json }});{% endif %} 
+       {% if settings.use_color_swatch != true %}jQuery('.single-option-selector').selectize();jQuery('.selectize-input input').attr("disabled","disabled");{% endif %}
+     {% endif %}
+     
+     {% if product.options.size == 1 and product.options.first != 'Title' %}$('.selector-wrapper:eq(0)').prepend('<label>{{ product.options.first }}</label>');{% endif %}
+   {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}$('.selector-wrapper').hide();{% endif %}
+   
+     // Auto-select first available variant on page load. Otherwise the product looks sold out.
+     {% assign found_one_in_stock = false %}
+     {% for variant in product.variants %}
+     {% if variant.available and found_one_in_stock == false %}
+     {% assign found_one_in_stock = true %}
+     {% for option in product.options %}
+     $('.single-option-selector:eq({{ forloop.index0 }})').val({{ variant.options[forloop.index0] | json }}).trigger('change');
+     {% endfor %}
+     {% endif %}
+     {% endfor %}
+   
+     {% if settings.display_product_reviews %}  
+     var reviewsTimeout = setInterval(function() {
+       if (jQuery(".spr-badge-caption").length>0) {jQuery(".spr-badge-caption").on('click', function() {jQuery('html,body').animate({scrollTop: jQuery(".panel:last").offset().top},'400');jQuery("#collapse-tab4").collapse('show');});clearInterval(reviewsTimeout);}
+     },1000);
+     {% endif %}
+   });
+    //If a product has only 1 variant and has a tag then the frame will be applied.
+   	//used to make sale or single products be viewable with a frame.
+     {% if product.variants.size > 1 %}
+           {%else%}
+           	{% for tag in product.tags %}
+           		{% if tag contains 'bframe' %}
+   				  	var frame1 = document.getElementById("frame").classList;
+   					frame1.add("frameblack");
+   				{% elsif tag contains 'wframe'%}
+   					var frame1 = document.getElementById("frame").classList;
+   					frame1.add("framewhite");
+   			{% elsif tag contains 'sframe'%}
+   					var frame1 = document.getElementById("frame").classList;
+   					frame1.add("framescandi");
+   				{% elsif tag contains 'gframe'%}
+   					var frame1 = document.getElementById("frame").classList;
+   					frame1.add("framegold");
+   				{%endif%}
+   
+   			{% endfor %}
+     {% endif %}
+   
+   
+   
+   function frameinfo() {
+    console.log("init");
+   
+    var tab1 = document.getElementById("t1");
+    tab1.classList.remove("active");
+    var tab2 = document.getElementById("t2");
+    tab2.className += " active";
+    var top = document.getElementById('anchor').offsetTop;
+    window.scrollTo(0, top);
+           console.log("end");
+   }
+   
+   
+</script>

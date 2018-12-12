@@ -1,0 +1,127 @@
+<div class="grid-image-banner" style="margin:{{section.settings.margin_grid_image_banner}}">
+    {% if section.settings.enable_grid_image_banner_fullwidth %}
+    <div class="full-width">
+        {% else %}
+        <div class="container">
+            {% endif %}
+      		{% include 'FeaturedArtist' %}
+          	<br>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="home-collection-wrapper" style="padding: 0px 0px 10px 0px;">
+                        <div class="home-collection-content" style="color:{{section.settings.color_title_1}};">
+                            {% if section.settings.grid_image_banner_title_1 != blank %}
+                            <a href="https://fineprintco.com/collections/slim-aarons?sort_by=manual" style="color:white !important;"><h2 style="color:white !important; font-size: 28px;">SLIM AARONS</h2></a> {% endif %}
+                        </div>
+                        <div class="image">
+                            {% if section.settings.grid_image_banner_image_1 != blank %}
+                            <a href="https://fineprintco.com/collections/slim-aarons?sort_by=manual"> <img class="lazyOwl feature-images" src="https://cdn.shopify.com/s/files/1/2439/0231/files/Slim-Aarons_327b40a6-52d6-45fc-9e5c-13652298c5a5.jpg" alt="" width="556px" height="370px"></a>
+                            {% else %} {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }} {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="home-collection-wrapper" style="padding: 0px 0px 0px 0px;">
+                        <div class="home-collection-content" style="color:{{section.settings.color_title_2}};">
+                            {% if section.settings.grid_image_banner_title_2 != blank %}
+                                <a href="https://fineprintco.com/collections/open-edition-prints" style="color:white !important;"><h2 style="color:white !important;">OPEN EDITIONS</h2></a> {% endif %}
+                        </div>
+                        <div class="image">
+                            {% if section.settings.grid_image_banner_image_2 != blank %}
+                                <a href="https://fineprintco.com/collections/open-edition-prints"> <img class="lazyOwl feature-images" src="https://cdn.shopify.com/s/files/1/2439/0231/files/Open-Editions_3e95d784-f682-43da-adf1-06f9bd4c5b31.jpg" alt="" width="556px" height="370px"></a>
+                            {% else %} {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }} {% endif %}
+                        </div>
+                    </div>
+                    <div class="home-collection-wrapper" style="padding: 20px 0px 0px 0px;">
+                        <div class="home-collection-content" style="color:{{section.settings.color_title_1}};">
+                            {% if section.settings.grid_image_banner_title_1 != blank %}
+                            <a href="https://fineprintco.com/collections/trunk-archive" style="color:white !important;"><h2 style="color:white !important;">TRUNK ARCHIVE</h2></a> {% endif %}
+                        </div>
+                        <div class="image">
+                            {% if section.settings.grid_image_banner_image_1 != blank %}
+                            <a href="https://fineprintco.com/collections/trunk-archive"> <img class="lazyOwl feature-images" src="https://cdn.shopify.com/s/files/1/2439/0231/files/Trunk-Archive_ac729a32-f200-4f10-8cfa-d42442ac9caf.jpg" alt="" width="556px" height="370px"></a>
+                            {% else %} {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }} {% endif %}
+                        </div>
+                    </div>
+                </div>
+          	</div>
+             <div class="row">  
+                <div class="col-md-4">
+                    <div class="home-collection-wrapper" style="padding: 10px 0px 0px 0px;">
+                        <div class="home-collection-content" style="color:{{section.settings.color_title_2}};">
+                            {% if section.settings.grid_image_banner_title_2 != blank %}
+                            <a href="https://fineprintco.com/collections/artist-editions" style="color:white !important;"><h2 style="color:white !important;">ARTIST EDITIONS</h2></a> {% endif %}
+                        </div>
+                        <div class="image">
+                            {% if section.settings.grid_image_banner_image_2 != blank %}
+                                <a href="https://fineprintco.com/collections/artist-editions"> <img class="lazyOwl feature-images" src="https://cdn.shopify.com/s/files/1/2439/0231/files/Artist-Editions_3a33ee06-6edd-4dd9-ba61-e43fd6aae9df.jpg" alt="" width="556px" height="370px"></a>
+                            {% else %} {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }} {% endif %}
+                        </div>
+                    </div>
+                     <div class="home-collection-wrapper" style="padding: 20px 0px 0px 0px;">
+                        <div class="home-collection-content" style="color:{{section.settings.color_title_2}};">
+                            {% if section.settings.grid_image_banner_title_2 != blank %}
+                            <a href="https://fineprintco.com/collections/raw" style="color:white !important;"><h2 style="color:white !important; font-size: 18px;">RAW: 4X READY TO FRAME PRINTS</h2></a> {% endif %}
+                        </div>
+                        <div class="image">
+                            {% if section.settings.grid_image_banner_image_2 != blank %}
+                                <a href="https://fineprintco.com/collections/raw"> <img class="lazyOwl feature-images" src="https://cdn.shopify.com/s/files/1/2439/0231/files/Raw_Pack_image.jpg" alt="" width="556px" height="370px"></a>
+                            {% else %} {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }} {% endif %}
+                        </div>
+                    </div>
+                </div>
+				<div class="col-md-8">
+                    <div class="home-collection-wrapper" style="padding: 10px 0px 0px 0px;">
+                        <div class="home-collection-content" style="color:{{section.settings.color_title_2}};">
+                            {% if section.settings.grid_image_banner_title_2 != blank %}
+								<a href="https://fineprintco.com/collections/limited-editions" style="color:white !important;"><h2 style="color:white !important;font-size: 28px;">LIMITED EDITIONS</h2></a> {% endif %}
+                        </div>
+                        <div class="image">
+                            {% if section.settings.grid_image_banner_image_2 != blank %}
+                                <a href="https://fineprintco.com/collections/limited-editions"> <img class="lazyOwl feature-images" src="https://cdn.shopify.com/s/files/1/2439/0231/files/Limited-Edition.jpg" alt="" width="556px" height="370px"></a>
+                            {% else %} {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }} {% endif %}
+                        </div>
+                    </div>
+                </div>
+          </div>
+          <div class="row"> 
+              <div class="col-md-6" style="padding-top:10px">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="home-collection-wrapper">
+                                <div class="home-collection-content" style="color:{{section.settings.color_title_2}};">
+                                    {% if section.settings.grid_image_banner_title_2 != blank %}
+                                    <a href="https://fineprintco.com/collections/originals" style="color:white !important;"><h2 style="color:white !important;">ORIGINALS</h2></a> {% endif %}
+                                </div>
+                                <div class="image">
+                                    {% if section.settings.grid_image_banner_image_2 != blank %}
+                                    <a href="https://fineprintco.com/collections/originals"> <img class="lazyOwl feature-images" src="https://cdn.shopify.com/s/files/1/2439/0231/files/originals-tile.jpg" alt="" width="1112px" height="185px"></a>
+                                    {% else %} {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }} {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" style="padding-top:10px">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="home-collection-wrapper">
+                                <div class="home-collection-content" style="color:{{section.settings.color_title_2}};">
+                                    {% if section.settings.grid_image_banner_title_2 != blank %}
+                                    <a href="https://fineprintco.com/collections/photographic-editions" style="color:white !important;"><h2 style="color:white !important;">PHOTOGRAPHIC EDITIONS</h2></a> {% endif %}
+                                </div>
+                                <div class="image">
+                                    {% if section.settings.grid_image_banner_image_2 != blank %}
+                                    <a href="https://fineprintco.com/collections/photographic-editions"> <img class="lazyOwl feature-images" src="https://cdn.shopify.com/s/files/1/2439/0231/files/Photographic-Editions_d476e10d-ab65-4a11-a89f-bd2f45682556.jpg" alt="" width="1112px" height="185px"></a>
+                                    {% else %} {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }} {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+<br> 
+{% schema %} { "name": "Typo - Grid Image", "class": "index-section", "settings": [ { "type": "text", "id": "margin_grid_image_banner", "label": "Margin", "default": "0px 0px 0px 0px" }, { "type": "checkbox", "id": "enable_grid_image_banner_fullwidth", "label": "Enable Block Full Width " }, { "type": "color", "id": "color_title_1", "label": "Title Label Color 1", "default": "#ffffff", "info": "Default Value: #ffffff" }, { "type": "textarea", "id": "grid_image_banner_title_1", "label": "Title 1", "default": "Title 1" }, { "type": "image_picker", "id": "grid_image_banner_image_1", "label": "Images" }, { "type": "color", "id": "color_title_2", "label": "Title Label Color 2", "default": "#ffffff", "info": "Default Value: #ffffff" }, { "type": "textarea", "id": "grid_image_banner_title_2", "label": "Title 2", "default": "Title 2" }, { "type": "image_picker", "id": "grid_image_banner_image_2", "label": "Images 2" }, { "type": "color", "id": "color_title_3", "label": "Title Label Color 3", "default": "#ffffff", "info": "Default Value: #ffffff" }, { "type": "textarea", "id": "grid_image_banner_title_3", "label": "Title 3", "default": "Title 3" }, { "type": "image_picker", "id": "grid_image_banner_image_3", "label": "Images 3" }, { "type": "color", "id": "color_title_4", "label": "Title Label Color 4", "default": "#ffffff", "info": "Default Value: #ffffff" }, { "type": "textarea", "id": "grid_image_banner_title_4", "label": "Title 4", "default": "Title 4" }, { "type": "image_picker", "id": "grid_image_banner_image_4", "label": "Images 4" } ], "presets": [ { "name": "Typo - Grid Image", "category": "Image" } ] } {% endschema %}

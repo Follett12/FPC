@@ -1,0 +1,12 @@
+<div class="block-html">
+	{% if settings[menu_html_title] != blank %}
+		<div class="menu-title">{{ settings[menu_html_title] }}</div>
+	{% endif %}
+	<div class="widget-inner">
+      	{% assign image_menu = menu_html_img | asset_url | split:'?' | first %}
+		<div class="box-image"><img class="b-lazy slide-img" src="{{ image_menu }}" alt=""></div>
+		{% if settings[menu_html_des] != blank %}
+			{{ settings[menu_html_des] }}
+		{% endif %}
+	</div>
+</div>

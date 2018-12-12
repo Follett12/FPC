@@ -1,0 +1,128 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45369938-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-45369938-2');
+</script>
+
+  <!-- Basic page needs ================================================== -->
+  <meta charset="utf-8">
+  <!-- Title and description ================================================== -->
+  <title>
+    {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+  {% if page_description %}
+  <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  <!-- Helpers ================================================== -->
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/x-icon" />
+  <!-- fonts -->
+  {% include 'font-family' %}
+  <!-- Styles -->
+  {{ 'styles.css' | asset_url | stylesheet_tag }}
+  {{ 'styles-setting.css' | asset_url | stylesheet_tag }}
+  {{ 'responsive.css' | asset_url | stylesheet_tag }}
+  <!-- Scripts -->
+  {% include 'head_scripts' %}
+  <!-- Header hook for plugins ================================================== -->
+  {{ content_for_header }}
+  <!--[if lt IE 9]>
+{{ '//html5shiv.googlecode.com/svn/trunk/html5.js' | script_tag }}
+<![endif]-->
+  
+  {% if template contains 'customers' %}
+  {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
+  {% endif %}
+
+<!-- Hits Analytics tracking code -->
+{% if shop.customer_accounts_enabled %}
+  {% if customer %}
+    <script type="text/javascript">
+        function hitsReady() {
+            if (typeof hits != 'undefined')
+                hits('user','identify', {'id' : '{{ customer.id }}'});
+            else
+                setTimeout(hitsReady,500);
+        }
+        window.attachEvent ? window.attachEvent('onload', hitsReady) : window.addEventListener('load', hitsReady, false);
+    </script>
+  {% endif %}
+{% endif %}
+<!-- end of Hits Analytics code -->
+
+ </head>
+<body id="{{ page_title | handle }}" class=" {% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+  {% if settings.display_loadding_page %}<div id="loading"></div>{% endif %}
+ 
+  <div class="wrapper">	
+      
+    {% section 'typo-header' %}
+    <div class="product-quickview"></div>
+    {% if settings.display_breadcrumb %}
+    <div class="clearfix breadcrumb-wrap">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            {% include 'breadcrumb' %}
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if template == 'product.left-sidebar' %}
+    <main class="container typo-main main-content" style="width:1750px !important;">
+      {{ content_for_layout }}
+    </main>
+    {%else%}
+    <main class="container typo-main main-content">
+      {{ content_for_layout }}
+    </main>
+    {%endif%}
+    {% section 'typo-footer' %}
+    {% include 'quick-view-product' %}
+    {% include 'footer_scripts' %}
+    {% include 'popup-newsletter' %}
+    <div id="back-top" style="display: none;"><a class="" href="#top"><i class="fa fa-angle-up"></i></a></div>
+  </div>
+  
+
+<script>
+  {% if template != 'cart' %}
+  jQuery(function(){
+    jQuery('body').on('click', "input[name='checkout'], input[value='Checkout'], button[name='checkout'], input[name='goto_pp'], button[name='goto_pp'], input[name='goto_gc'], button[name='goto_gc'], [href$='checkout']", function(e){
+      e.preventDefault();
+      window.location = "/cart";
+    });
+  });
+{% endif %}
+  jQuery(function(){
+    jQuery('body').on('click', "[href$='checkout']", function(e){
+      e.preventDefault();
+      window.location = "/cart";
+    });
+  });
+</script>    
+
+
+
+  
+  {% include 'canvas-menu' %}
+  {% assign file_js_ajax = 'ajax.jquery.min.js' | asset_url  %}
+<script src="{{file_js_ajax }}"></script> 
+  <div class="body-overlay"></div>
+</html>

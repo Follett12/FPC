@@ -1,0 +1,7 @@
+
+
+{% if settings.fonts_name_1 != blank or settings.fonts_name_2 != blank or settings.fonts_name_3 != blank  or settings.fonts_name_4 != blank %}
+<script type="text/javascript">
+  WebFontConfig = {google: { families: [ {% if settings.fonts_name_1 != blank  %}'{{ settings.fonts_name_1 }}:100,200,300,400,500,600,700,800,900',{% endif %}{% if settings.fonts_name_2 != blank  %}'{{ settings.fonts_name_2 }}:100,200,300,400,500,600,700,800,900',{% endif %}{% if settings.fonts_name_3 != blank  %}'{{ settings.fonts_name_3 }}:100,200,300,400,500,600,700,800,900',{% endif %}{% if settings.fonts_name_4 != blank  %}'{{ settings.fonts_name_4 }}:100,200,300,400,500,600,700,800,900'{% endif %}] }};(function() {var typo = document.createElement('script');typo.src = ('https:' == document.location.protocol ? 'https' : 'http') +'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';typo.type = 'text/javascript';typo.async = 'true';var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(typo, s);})(); 
+</script>
+{% endif %}

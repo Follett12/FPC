@@ -1,0 +1,28 @@
+<!-- Footer scripts -->
+
+
+{% if template contains 'product' %}
+{% comment %}
+{{ 'jquery.elevateZoom-3.0.8.min.js' | asset_url | script_tag }}
+{% endcomment %}
+{%endif %}
+{% if settings.product_image_resize %}
+{{ 'jquery.fakecrop.js' | asset_url | script_tag }}
+{% endif %}
+{% if settings.product_image_crop %}
+{{ 'jquery.fakecrop.js' | asset_url | script_tag }}
+{% endif %}
+{% if settings.enable_multiple_currencies %}
+{%  include 'new-currency' %}
+{% endif %}
+
+
+
+
+{% if settings.display_scroll_page %}
+{{ 'TweenMax.min.js' | asset_url | script_tag }}
+{{ 'ScrollToPlugin.min.js' | asset_url | script_tag }}
+{{ 'smoothPageScroll.js' | asset_url | script_tag }}
+{%endif %}
+
+

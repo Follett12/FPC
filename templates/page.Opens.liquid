@@ -1,0 +1,23 @@
+<header class="page-header">
+    <!--<h2>{{ page.title }}</h2>-->
+</header>
+
+<div class="list-category row">
+  {% comment %}
+    Loop through each collection, except 'frontpage'
+  {% endcomment %}
+  
+  {% for collection in collections %}
+  	
+  {% if collection.title %}
+      {% include 'collection-grid-item' %}
+  {% endif %}
+  
+  {% endfor %}
+</div>
+{% comment %}
+  Regular page content goes here.
+{% endcomment %}
+<div class="rte">
+  {{ page.content }}
+</div>

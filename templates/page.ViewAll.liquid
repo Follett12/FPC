@@ -1,0 +1,304 @@
+<header class="page-header">
+    <h2>Our Collections</h2>
+</header>
+
+{% comment %}
+  Regular page content goes here.
+{% endcomment %}
+<div class="rte">
+  
+{% assign collection = collections['slim-aarons']  %}
+
+
+{% if collection and collection.products_count > 1 %}
+<section class="related-products" style="margin-top:0px !important; padding-top:20px !important">
+  {% if settings.related_products_title != '' %}
+  <h2><span>Slim Aarons</span></h2><h5><a href="/collections/slim-aarons"><u>View More</u></a></h5>
+  {% endif %}
+  <div class="products-grid">
+    
+  {% assign current_product = product %}
+  {% assign current_product_found = false %}
+  {% for product in collection.products limit: 8 %}
+    {% if product.handle == current_product.handle %}
+       {% assign current_product_found = true %}
+    {% else %}
+
+       	{% include 'related-product-item' %}
+
+    {% endif %}
+  {% endfor %}
+  </div>
+</section>
+  
+  
+<script>
+  jQuery(document).ready(function() {
+    jQuery(".related-products .products-grid").owlCarousel({
+      autoPlay: 8000,     
+      scrollPerPage: true,
+      slideSpeed: 500,
+      stopOnHover: true,    
+      navigation : true,
+      navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+      items : 4,
+ 	  itemsDesktop : [1200,3],
+      itemsTablet: [767,3],
+      itemsTabletSmall: [721,2]
+    });
+  });
+</script>
+
+{% endif %}
+  
+{% assign collection = collections['Limited-editions']  %}
+
+
+{% if collection and collection.products_count > 1 %}
+<section class="related-products" style="margin-top:0px !important; padding-top:20px !important">
+  {% if settings.related_products_title != '' %}
+  <h2><span>Limited Editions</span></h2><h5><a href="/collections/limited-editions"><u>View More</u></a></h5>
+  {% endif %}
+  <div class="products-grid">
+  {% assign current_product = product %}
+  {% assign current_product_found = false %}
+  {% for product in collection.products limit: 8 %}
+    {% if product.handle == current_product.handle %}
+       {% assign current_product_found = true %}
+    {% else %}
+
+       	{% include 'related-product-item' %}
+
+    {% endif %}
+  {% endfor %}
+  </div>
+</section>
+  
+  
+<script>
+  jQuery(document).ready(function() {
+    jQuery(".related-products .products-grid").owlCarousel({
+      autoPlay: 8000,     
+      scrollPerPage: true,
+      slideSpeed: 700,
+      stopOnHover: true,    
+      navigation : true,
+      navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+      items : 4,
+ 	  itemsDesktop : [1200,3],
+      itemsTablet: [767,3],
+      itemsTabletSmall: [721,2]
+    });
+  });
+</script>
+
+{% endif %}
+  
+{% assign collection = collections['Artist-editions']  %}
+
+
+{% if collection and collection.products_count > 1 %}
+<section class="related-products" style="margin-top:0px !important; padding-top:20px !important">
+  {% if settings.related_products_title != '' %}
+  <h2><span>Artist Editions</span></h2><h5><a href="/collections/artist-editions"><u>View More</u></a></h5>
+  {% endif %}
+  <div class="products-grid">
+  {% assign current_product = product %}
+  {% assign current_product_found = false %}
+  {% for product in collection.products limit: 8 %}
+    {% if product.handle == current_product.handle %}
+       {% assign current_product_found = true %}
+    {% else %}
+     
+       	{% include 'related-product-item' %}
+     
+    {% endif %}
+  {% endfor %}
+  </div>
+</section>
+  
+  
+<script>
+  jQuery(document).ready(function() {
+    jQuery(".related-products .products-grid").owlCarousel({
+      autoPlay: 8000,     
+      scrollPerPage: true,
+      slideSpeed: 600,
+      stopOnHover: true,    
+      navigation : true,
+      navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+      items : 4,
+ 	  itemsDesktop : [1200,3],
+      itemsTablet: [767,3],
+      itemsTabletSmall: [721,2]
+    });
+  });
+</script>
+
+{% endif %}
+  
+  
+  {% assign collection = collections['photographic-editions']  %}
+
+
+{% if collection and collection.products_count > 1 %}
+<section class="related-products" style="margin-top:0px !important; padding-top:20px !important">
+  {% if settings.related_products_title != '' %}
+  <h2><span>Photographic Editions</span></h2><h5><a href="/collections/photographic-editions"><u>View More</u></a></h5>
+  {% endif %}
+  <div class="products-grid">
+  {% assign current_product = product %}
+  {% assign current_product_found = false %}
+  {% for product in collection.products limit: 8 %}
+    {% if product.handle == current_product.handle %}
+       {% assign current_product_found = true %}
+    {% else %}
+       	{% include 'related-product-item' %}
+    {% endif %}
+  {% endfor %}
+  </div>
+</section>
+  
+  
+<script>
+  jQuery(document).ready(function() {
+    jQuery(".related-products .products-grid").owlCarousel({
+      autoPlay: 8000,     
+      scrollPerPage: true,
+      slideSpeed: 600,
+      stopOnHover: true,    
+      navigation : true,
+      navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+      items : 4,
+ 	  itemsDesktop : [1200,3],
+      itemsTablet: [767,3],
+      itemsTabletSmall: [721,2]
+    });
+  });
+</script>
+
+{% endif %}
+  
+    {% assign collection = collections['new-release-prints']  %}
+
+
+{% if collection and collection.products_count > 1 %}
+<section class="related-products" style="margin-top:0px !important; padding-top:20px !important">
+  {% if settings.related_products_title != '' %}
+  <h2><span>New Arrivals</span></h2><h5><a href="/collections/new-release-prints"><u>View More</u></a></h5>
+  {% endif %}
+  <div class="products-grid">
+  {% assign current_product = product %}
+  {% assign current_product_found = false %}
+  {% for product in collection.products limit: 8 %}
+    {% if product.handle == current_product.handle %}
+       {% assign current_product_found = true %}
+    {% else %}
+       	{% include 'related-product-item' %}
+    {% endif %}
+  {% endfor %}
+  </div>
+</section>
+  
+  
+<script>
+  jQuery(document).ready(function() {
+    jQuery(".related-products .products-grid").owlCarousel({
+      autoPlay: 8000,     
+      scrollPerPage: true,
+      slideSpeed: 600,
+      stopOnHover: true,    
+      navigation : true,
+      navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+      items : 4,
+ 	  itemsDesktop : [1200,3],
+      itemsTablet: [767,3],
+      itemsTabletSmall: [721,2]
+    });
+  });
+</script>
+
+{% endif %}
+  
+      {% assign collection = collections['petrichor']  %}
+
+
+{% if collection and collection.products_count > 1 %}
+<section class="related-products" style="margin-top:0px !important; padding-top:20px !important">
+  {% if settings.related_products_title != '' %}
+  <h2><span>Petrichor</span></h2><h5><a href="/collections/petrichor"><u>View More</u></a></h5>
+  {% endif %}
+  <div class="products-grid">
+  {% assign current_product = product %}
+  {% assign current_product_found = false %}
+  {% for product in collection.products limit: 8 %}
+    {% if product.handle == current_product.handle %}
+       {% assign current_product_found = true %}
+    {% else %}
+       	{% include 'related-product-item' %}
+    {% endif %}
+  {% endfor %}
+  </div>
+</section>
+  
+  
+<script>
+  jQuery(document).ready(function() {
+    jQuery(".related-products .products-grid").owlCarousel({
+      autoPlay: 8000,     
+      scrollPerPage: true,
+      slideSpeed: 600,
+      stopOnHover: true,    
+      navigation : true,
+      navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+      items : 4,
+ 	  itemsDesktop : [1200,3],
+      itemsTablet: [767,3],
+      itemsTabletSmall: [721,2]
+    });
+  });
+</script>
+
+{% endif %}
+  
+        {% assign collection = collections['open-editions']  %}
+
+
+{% if collection and collection.products_count > 1 %}
+<section class="related-products" style="margin-top:0px !important; padding-top:20px !important">
+  {% if settings.related_products_title != '' %}
+  <h2><span>Open Editions</span></h2><h5><a href="/collections/open-editions"><u>View More</u></a></h5>
+  {% endif %}
+  <div class="products-grid">
+  {% assign current_product = product %}
+  {% assign current_product_found = false %}
+  {% for product in collection.products limit: 8 %}
+    {% if product.handle == current_product.handle %}
+       {% assign current_product_found = true %}
+    {% else %}
+       	{% include 'related-product-item' %}
+    {% endif %}
+  {% endfor %}
+  </div>
+</section>
+  
+  
+<script>
+  jQuery(document).ready(function() {
+    jQuery(".related-products .products-grid").owlCarousel({
+      autoPlay: 8000,     
+      scrollPerPage: true,
+      slideSpeed: 600,
+      stopOnHover: true,    
+      navigation : true,
+      navigationText : ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+      items : 4,
+ 	  itemsDesktop : [1200,3],
+      itemsTablet: [767,3],
+      itemsTabletSmall: [721,2]
+    });
+  });
+</script>
+
+{% endif %}
+</div>

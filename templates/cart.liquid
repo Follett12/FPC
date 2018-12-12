@@ -1,0 +1,193 @@
+<script>
+   var check = false;
+   console.log(check); //global var, very bad.
+</script>
+<div id="cart">
+   <!-- Begin empty cart -->
+   {% if cart.item_count == 0 %}
+   <div class="row">
+      <div class="col-lg-12 expanded-message">
+         <br>
+         <br>
+         <h2 class="tc">Your cart is empty!</h2>
+      </div>
+   </div>
+   <!-- End empty cart -->
+   <!-- Begin cart -->
+   {% else %}
+   <br>
+   {% if customer %}
+   {% for tag in customer.tags %}
+   {% if tag == "wholesale"%}
+   Wholesale. Please wait for the system to load your Wholesale discount before checking out. All order prices are inclusive of GST. 
+   {%elsif tag == "trade"%}
+   Trade. Please wait for the system to load your Trade discount before checking out. All order prices are inclusive of GST. 
+   {% endif %}
+   {% endfor %}
+   {% else %}
+   Retail
+   {% endif %}
+   <div class="row">
+      <div class="col-lg-12">
+         <!--h1>Your cart</h1-->
+         <form action="/cart" method="post" id="cartform">
+            <table>
+               <thead>
+                  <tr>
+                     <th class="image">&nbsp;</th>
+                     <th class="item">{{ 'typo_page.page_cart.name' | t }}</th>
+                     <th class="qty">{{ 'typo_page.page_cart.qty' | t }}</th>
+                     <th class="price">{{ 'typo_page.page_cart.price' | t }}</th>
+                     <th class="remove">{{ 'typo_page.page_cart.remove' | t }}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for item in cart.items %}
+                  <tr>
+                     <td class="image">
+                        <div class="product_image">
+                           <a href="{{ item.url }}">
+                           <img src="{{ item | img_url: 'compact' }}"  alt="{{ item.product.title }}" />
+                           </a>
+                        </div>
+                     </td>
+                     <td class="item">
+                        <a href="{{ item.url }}">
+                           <strong>{{ item.product.title }}</strong>
+                           {% if item.product.variants.size > 1 %}
+                           <span class="variant_title">{{ item.variant.title }}</span>
+                           {% if item.variant.option3 != 'None'%}
+                           <script> 
+                              check = true; 
+                              console.log(check);
+                           </script>
+                           {%endif%}
+                           {% endif %}
+                        </a>
+                     </td>
+                     <td class="qty">
+                        <input type="text" size="4" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" onfocus="this.select();" class="tc item-quantity" />
+                     </td>
+                     <td class="price">              {% include 'saw_compute_discount' with item.product %}
+                        {% include 'saw_variant' with item.variant %}
+                        {% if saw_has_discount == false or saw_variant_price >= saw_variant_compare_at_price %}	          
+                        {{ item.line_price | money }}    
+                        {% else %}
+                        <span class="saw_product_price">{{saw_variant_price | round | times: item.quantity | money }}</span> <br>
+                        <span class="saw_product_compare_at_price"><del>{{ saw_variant_compare_at_price  | times: item.quantity | money }}</del> </span>
+                        {% endif %} 
+                     </td>
+                     <td class="remove">
+                        <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart">
+                           <image src="https://cdn.shopify.com/s/files/1/2439/0231/files/Remove_from_cart.png?2977334759476004003" align="middle" width="25%"></image>
+                        </a>
+                     </td>
+                  </tr>
+                  {% endfor %}
+                  <tr class="summary">
+                     <td  colspan="3" >{{ 'typo_page.page_cart.total_price' | t }} : </td>
+                     <td class="price">
+                        <span class="total">
+                           <strong>
+                              <div style="text-align: right;" class="saw-extra-note"></div>
+                              <span class="saw-cart-original-total saw_product_price saso-cart-original-total"><span id="bk-cart-subtotal-price">{{ cart.total_price | money }}</span></span> 
+                              <span class="saw-cart-total"></span>
+                              <span class="saso-cart-total"></span>
+                           </strong>
+                        </span>
+                     </td>
+                     <td>&nbsp;</td>
+                  </tr>
+               </tbody>
+            </table>
+            <div class="row">
+               <div class="col-md-8">
+                  {% include 'checkout-carousel' %}
+                  <!--
+                     {% if settings.cart_notes %}
+                     <h3 class="add-comments">{{ 'typo_page.page_cart.comments' | t }}</h3>
+                     <textarea name="note" class="input-full" id="cartSpecialInstructions">{{ cart.note }}</textarea>
+                     {% endif %}
+                     
+                     {% comment %}
+                       If notes are used, adjust the column width
+                     {% endcomment %}
+                     
+                     {% comment %}
+                       name="checkout" is required for the update button to work
+                     {% endcomment %}
+                     -->
+               </div>
+               <div class="col-md-4" style="padding-top:50px !important">
+                  <p id="intshiptext" style="color: red; font-weight: bold; text-align: justify;"></p>
+                  <input style="display:" type="submit" id="checkout" class="btn" name="checkout" value="{{ 'Check Out'}}" />
+                  <input style="display:" type="submit" id="update-cart" class="btn" name="update" value="{{ 'Update Cart'}}" />
+                  <!-- zipmoney widgets -->
+                  {%include 'zip-widget'%}
+                  <style>
+                     #shopify-zip-cart-widget > iframe {   
+                     height: 75px!important;
+                     width: 293px!important;
+                     margin-top: 10px;
+                     }
+                  </style>
+                  <span style="cursor:pointer" id="shopify-zip-cart-widget"     data-zm-asset="cartwidget" data-zm-widget="popup"  data-zm-popup-asset="termsdialog"></span>
+                  <!-- end zipmoney widgets -->  
+               </div>
+            </div>
+         </form>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+   {% endif %}
+   <!-- End cart -->
+</div>
+<script>
+   function SAWOrderNote(note) {
+   	note = note.replace("some text to replace", "new text");
+    return note
+   }
+   
+   function SAWComplete(res) {
+     setTimeout(function() {
+       jQuery(".cart__note-add").click()
+     }, 500);
+     if (res.warning_note != "") {
+       var checkout_selectors = [".purchase-benefits", "input[name='checkout']", "button[name='checkout']", "[href$='checkout']","input[name='goto_pp']", "button[name='goto_pp']", "input[name='goto_gc']", "button[name='goto_gc']", ".google-wallet-button-holder", ".amazon-payments-pay-button", ".alt-payment-list-amazon-button-image", ".additional-checkout-button__logo"];
+       checkout_selectors.forEach(function(selector) {
+         jQuery(selector).remove();
+       })
+       return
+     }
+     setTimeout(function() {
+     	//jQuery(".saw-cart-original-total").remove();
+     }, 10)
+     return
+   }
+  
+  
+   console.log(check);
+   //determine location using ipinfo.
+   //the response object has more attributes but I am only using country and just logging city to X2 check.
+   	$.get("http://ipinfo.io?token=f59b0e4933c705", function (response) {
+     	var country = response.country;
+       console.log(response.country + " , " + response.city);
+       $("#cty").text(response.country + " , " + response.city);
+       if(country == 'AU'){
+      
+       }else if(country == 'NZ'){
+        
+       }else if(check == false){
+      
+       }else if(check == true){
+         var x = document.getElementById("checkout");
+         x.style.display = "none";
+       	var y = document.getElementById("update-cart");
+         y.style.display = "none"; 
+         $("#intshiptext").text("Unfortunatly we do not ship framed prints internationally outside of Australia & New Zealand. Either replace the framed print with the unframed variant or contact digital@fineprintco.com");
+         
+       }
+   	}, "jsonp");
+   
+</script>
+{% include 'saw_cart' %}

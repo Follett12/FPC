@@ -1,0 +1,598 @@
+
+<header class="page-header">
+    <!--<h2>{{ page.title }}</h2>-->
+  
+<style>
+  *,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+figure {
+  margin: 0;
+}
+
+.absolute-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  transition: -webkit-transform 300ms ease;
+  transition: transform 300ms ease;
+  transition: transform 300ms ease, -webkit-transform 300ms ease;
+}
+
+.css-grid {
+  display: block;
+}
+.css-grid:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+@supports (display: grid) {
+  .css-grid {
+    display: grid;
+    grid-auto-flow: row dense;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  .css-grid:after {
+    content: none;
+  }
+  @media (min-width: 640px) {
+    .css-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .css-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  @media (min-width: 1840px) {
+    .css-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+}
+.css-grid > article {
+  float: left;
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .css-grid > article {
+    width: 50%;
+  }
+}
+@media (min-width: 640px) and (max-width: 767px) {
+  .css-grid > article:nth-child(17n + 1) {
+    width: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .css-grid > article {
+    width: 25%;
+  }
+  .css-grid > article:nth-child(34n + 1) {
+    width: 50%;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1839px) {
+  .css-grid > article:nth-child(34n + 20) {
+    float: right;
+    width: 50%;
+  }
+}
+@media (min-width: 1840px) {
+  .css-grid > article {
+    width: 20%;
+  }
+  .css-grid > article:nth-child(34n + 1) {
+    width: 40%;
+  }
+  .css-grid > article:nth-child(34n + 21) {
+    float: right;
+    width: 40%;
+  }
+}
+@supports (display: grid) {
+  .css-grid > article {
+    float: none;
+    width: auto;
+  }
+  @media (min-width: 640px) and (max-width: 767px) {
+    .css-grid > article:nth-child(17n + 1) {
+      grid-column-end: span 2;
+      grid-row-end: span 2;
+    }
+  }
+  @media (min-width: 1024px) {
+    .css-grid > article:nth-child(34n + 1) {
+      grid-column-end: span 2;
+      grid-row-end: span 2;
+      width: auto;
+    }
+  }
+  @media (min-width: 1024px) and (max-width: 1839px) {
+    .css-grid > article:nth-child(34n + 20) {
+      grid-column-start: 3;
+      grid-column-end: span 2;
+      grid-row-end: span 2;
+      width: auto;
+    }
+  }
+  @media (min-width: 1840px) {
+    .css-grid > article:nth-child(34n + 1) {
+      width: auto;
+    }
+    .css-grid > article:nth-child(34n + 21) {
+      grid-column-start: 4;
+      grid-column-end: span 2;
+      grid-row-end: span 2;
+      width: auto;
+    }
+  }
+}
+.css-grid__link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+.css-grid__link:before, .css-grid__link:after {
+  content: "";
+}
+.css-grid__link:before {
+  display: block;
+  padding-top: 100%;
+}
+.css-grid__link:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #080808;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.css-grid__link:hover:after {
+  opacity: 0.3;
+}
+.css-grid__link:hover .absolute-bg {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+  figure {
+    -webkit-filter: grayscale(0%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(0%);
+}
+a:hover {
+    color: grey;
+}
+
+
+  </style>
+</header>
+
+<!-- CSS Grid -->
+<a href="https://fineprintco.com/collections/photographic-editions"><h2 style="color:black !important;">VIEW PHOTOGRAPHIC EDITIONS</h2></a>
+<section class="css-grid">
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/photographic-editions">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-KJ-013_grande.jpg?v=1537240416');"><h2 style="color:white !important;"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/cj/products/woman-living-her-everyday-life?variant=3245341212695">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/CJ-5_14655eb8-c96b-40f0-a65a-e3889c65ab5f_grande.jpg?v=1537673329');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/kyle-jenkinson/products/pinnacle-1?variant=12632492081175">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-KJ-002-Pinnacle-BASE_grande.jpg?v=1537241918');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/sean-and-kat/products/west-side-story?variant=2848868532247">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-SK-003-Sean_Kat_West-Side-Story_grande.jpg?v=1537240786');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/matt-johnson/products/car-two?variant=2643954991127">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Matt-Johnson-Car_040211-2928_grande.jpg?v=1537239438');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/sean-and-kat/products/empire-from-les">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-SK-004-Sean_Kat_Empire-from-LES_grande.jpg?v=1537237863');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/matt-johnson/products/fuel?variant=2643964264471">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Matt-Johnson-Fuel_161210-7737_grande.jpg?v=1537236804');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/francesca-owen/products/hold-on?variant=12394478862359">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-FO-005_grande.jpg?v=1537238894');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/trunk-archive/products/behind-the-scenes?variant=3028605239319">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Snapper_ThanassisK_TRU1566996_grande.jpg?v=1537673199');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/anita-vincze/products/monochrome-flower-2?variant=12474484260887">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/ae-av-002_grande.jpg?v=1537237634');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/malin/products/delirium-trigger-vi?variant=2614673932311">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Malin-Delirium-Trigger-Vl_grande.jpg?v=1537239345');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/trunk-archive/products/beach-style-3?variant=3028233682967">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Snapper_MarcoTrunz_TRU1595399_grande.jpg?v=1537672830');"></figure>
+    </a>
+  </article>
+  
+  
+  
+  <!--Very hacky way of doing this but makes the small space of between the areas. Absolutely not the best way to do it but I dont wanna spend all day on this-->
+  <article>
+  </article>
+  <article>
+	<br>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <!-- Boop -->
+</section>
+
+<a href="https://fineprintco.com/collections/artist-editions"><h2 style="color:black !important;">VIEW ARTIST EDITIONS</h2></a>
+<section class="css-grid">
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/indistinct?variant=12321284718615">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-CR-001_INDISTINCT._Corban_Renouf_grande.jpg?v=1537681341');"></figure>
+    </a>
+  </article
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/dreams-iv?variant=12344931844119">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Dreams-IV-AE-JO-018_grande.jpg?v=1537681645');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/monarch?variant=2614716465175">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Alicia_Beech_-_Monarch_grande.jpg?v=1537675868');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/ceiling-zero?variant=12321282981911">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-CR-002_CEILING-ZERO-II-Corban-Renouf_grande.jpg?v=1537681338');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/blues?variant=12344917983255">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/ae-jo-016_grande.jpg?v=1537681615');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/merrythought?variant=12321300840471">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-LL-002_c01b8427-f86c-44ed-80e7-b288992255d0_grande.jpg?v=1537681374');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/small-plant-3?variant=12321296056343">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-AD-007_df64194a-0a1d-4990-8f23-fc7cbe018d80_grande.jpg?v=1537681364');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/yet-to-be-titled?variant=12321279803415">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-PH-013-Yet-to-be-titled---Oil-on-Canvas---H122cm-x-W153cm-Pamela-Honeyfield_grande.jpg?v=1537681332');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/satelite?variant=3331696033815">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Alicia-Beech-Satelite_grande.jpg?v=1537678978');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/revelation?variant=3245758906391">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Alicia_Beech_-_Revelation_grande.jpg?v=1537678952');"></figure>
+    </a>
+  </article>
+    <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/kite?variant=2614689529879">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Alicia_Beech_-_Kite_grande.jpg?v=1537675855');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/artist-editions/products/discord?variant=12321268334615">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/AE-PH-005-Discord---Oil-on-Canvas---H122cm-x-W153cm-IMG_0084-Pamela-Honeyfield_grande.jpg?v=1537681308');"></figure>
+    </a>
+  </article>
+   <!--Very hacky way of doing this but makes the small space of between the areas. Absolutely not the best way to do it but I dont wanna spend all day on this-->
+  <article>
+  </article>
+  <article>
+	<br>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <!-- Boop -->
+</section>
+
+  <a href="https://fineprintco.com/collections/open-edition-prints"><h2 style="color:black !important;">VIEW OPEN EDITIONS</h2></a>
+<section class="css-grid">
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/open-edition-prints">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/OE2-001-JO-044-Hearth-III_grande.jpg?v=1537585117');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/bittersweet?variant=12282058702871">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/pod-mop111152dg_grande.jpg?v=1537679907');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/bryce-canyon-overlook-at-sunrise?variant=12302425686039">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/gi-137679878_grande.jpg?v=1537680564');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/canyon?variant=12302434435095">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/gi-488532975_grande.jpg?v=1537680583');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/copper-sky?variant=12282241843223">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/pod-mop111140dg_grande.jpg?v=1537674391');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/colored-smoke-1?variant=12302403305495">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/gi-159111153_grande.jpg?v=1537680517');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/colored-hills?variant=12302369226775">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/gi-162763654_grande.jpg?v=1537680440');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/country-route-i?variant=12320815906839">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/oe2-001-003_grande.jpg?v=1537584662');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/open-edition-prints/products/pana-i?variant=12321059242007">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/oe2-012-006_grande.jpg?v=1537584959');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/banxy-i?variant=12321047314455">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/oe2-012-001_grande.jpg?v=1537584947');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/banxy-ii?variant=12321083162647">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/oe2-012-016_grande.jpg?v=1537584989');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/winter-2018/products/banxy-iii?variant=12321103904791">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/oe2-012-026_grande.jpg?v=1537585014');"></figure>
+    </a>
+  </article>
+
+  
+  <!--Very hacky way of doing this but makes the small space of between the areas. Absolutely not the best way to do it but I dont wanna spend all day on this-->
+  <article>
+  </article>
+  <article>
+	<br>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <!-- Boop -->
+</section>
+
+  <a href="https://fineprintco.com/collections/slim-aarons"><h2 style="color:black !important;">VIEW SLIM AARONS</h2></a>
+<section class="css-grid">
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/florida-palms?variant=12361619341335">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/113915532_grande.jpg?v=1537675337');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/holiday-in-mustique?variant=7466728259607">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/605351899_grande.jpg?v=1537673967');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/casa-las-estacas?variant=7466698113047">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/Casa_Las_Estacas_grande.jpg?v=1537673938');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/Slim-Aarons">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/745209351_grande.jpg?v=1537673868');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/pool-by-the-sea?variant=7157222408215">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/73309131_17511e6d-4da1-4226-967e-c47dcde2fc28_grande.jpg?v=1537669964');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/keep-your-cool?variant=7157211136023">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/2695027_8_grande.jpg?v=1537670044');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/desert-house-party-2?variant=7157197668375">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/674384077_-_Desert_House_Party_2_grande.png?v=1537673565');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/il-canille?variant=7157206777879">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/155762888-Il-Canille_07d3a0f6-eb6e-466e-bed3-2eb3648308d5_grande.jpg?v=1537669917');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/el-venero?variant=7157199732759">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/50945877-El-Venero_e4c82d02-e76e-4f64-8c83-2a3bd429950b_grande.jpg?v=1537670073');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/yacht-holiday?variant=7157236727831">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/53403623----Yacht-Holiday_3332c987-a13c-419d-9f37-5964aa14140e_grande.jpg?v=1537670169');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/penthouse-pool?variant=7157706981399">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/77440243-Penthouse-Pool_33b2f091-be79-46af-a4b0-ae58bfd69ba5_grande.jpg?v=1537670088');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/slim-aarons/products/mans-work?variant=7157701246999">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/2716752_a411b624-1362-4686-bd4d-fbfba7c4aef1_grande.jpg?v=1537669924');"></figure>
+    </a>
+  </article>
+  
+  <!--Very hacky way of doing this but makes the small space of between the areas. Absolutely not the best way to do it but I dont wanna spend all day on this-->
+  <article>
+  </article>
+  <article>
+	<br>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <!-- Boop -->
+</section>
+
+<a href="https://fineprintco.com/collections/Limited-Editions"><h2 style="color:black !important;">VIEW LIMITED EDITIONS</h2></a>
+<section class="css-grid">
+  
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/cynthia-breusch/products/fantastic-day?variant=3123670515735">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/LE-CB-002-Cynthia-Breuch---Fantastic-Day_fbbe6ba9-b845-401b-ae86-06f0abf17b98_grande.jpg?v=1537678810');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/limited-editions/products/heroic-day?variant=3123674382359">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/LE-CB-004--Cynthia-Breusch-Heroic-Day_c6deab51-23ad-4be7-943d-5548d383a6b8_grande.jpg?v=1537678812');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/limited-editions/products/breathing-lessons?variant=3123680706583">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/LE-MD-001-I-Fall-Asleep-in-your-Branches_LowRes_grande.jpg?v=1537678815');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/limited-editions/products/liguria?variant=12349700800535">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/le-dw-003_grande.jpg?v=1537681653');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/limited-editions/products/to-each-his-own-wilderness?variant=12335238250519">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/le-kb-006_grande.jpg?v=1537681391');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/limited-editions/products/charlotte-with-blue-flowers?variant=3403740839959">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/LE-DB-001-David-Bromley-Chrlotte_grande.jpg?v=1537678985');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/limited-editions/products/fish-market?variant=3123697221655">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/LE-CM-001_Christopher_McVinish_-_Fish_Market_grande.jpg?v=1537678822');"></figure>
+    </a>
+  </article>
+</section>
+  
+    <!--Very hacky way of doing this but makes the small space of between the areas. Absolutely not the best way to do it but I dont wanna spend all day on this-->
+  <article>
+  </article>
+  <article>
+	<br>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <article>
+  </article>
+  <!-- Boop -->
+</section>
+
+<a href="https://fineprintco.com/collections/archival-collection"><h2 style="color:black !important;">ARCHIVAL EDITIONS</h2></a>
+<section class="css-grid">
+  
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/archival-collection/products/pavilion-chandelier?variant=7000623546391">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/arc-063_grande.jpg?v=1537679527');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/archival-collection/products/whitestone-bridge?variant=7000571543575">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/arc-041_grande.jpg?v=1537679433');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/archival-collection/products/luna-park?variant=6959229796375">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/ARC-028_grande.jpg?v=1537679414');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/archival-collection/products/flight?variant=6959230943255">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/ARC-030_grande.jpg?v=1537679417');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/archival-collection/products/couple?variant=6941499654167">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/arc-002_grande.jpg?v=1537679353');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/archival-collection/products/jump?variant=6941527212055">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/arc-025_grande.jpg?v=1537679410');"></figure>
+    </a>
+  </article>
+  <article>
+    <a class="css-grid__link" href="https://fineprintco.com/collections/archival-collection/products/dive?variant=6941504307223">
+      <figure class="absolute-bg" style="background-image: url('//cdn.shopify.com/s/files/1/2439/0231/products/arc-006_grande.jpg?v=1537679362');"></figure>
+    </a>
+  </article>
+</section>
